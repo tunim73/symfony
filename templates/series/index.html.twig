@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SeriesController!{% endblock %}
+{% block title %}Minhas Series{% endblock %}
 
 {% block body %}
 <style>
@@ -11,6 +11,7 @@
 <div class="example-wrapper">
     <h1>Listagem de séries</h1>
 
+    <a href="/series/create">Adicionar</a>
     <ul>
         {% for serie in seriesList %}
             <li>{{ serie }}</li>
