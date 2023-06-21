@@ -1,22 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Minhas Series{% endblock %}
+{% block title %}Minhas séries{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Listagem de séries</h1>
 
-    <a href="/series/create">Adicionar</a>
-    <ul>
+    <a href="/series/create" class="btn btn-outline-primary ">Adicionar</a>
+    <ul class="list-group">
         {% for serie in seriesList %}
-            <li>{{ serie }}</li>
+            <li class="list-group-item">{{ serie }}</li>
         {% endfor %}
 
     </ul>
-</div>
+
 {% endblock %}
