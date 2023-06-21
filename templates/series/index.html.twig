@@ -5,7 +5,7 @@
 {% block body %}
 
 
-    <a href="/series/create" class="btn btn-outline-primary mb-3">Adicionar</a>
+    <a href="{{ path("app_series_form_GET") }}" class="btn btn-outline-primary mb-3">Adicionar</a>
     <ul class="list-group">
         {% for serie in seriesList %}
             <li class="list-group-item">{{ serie.name }}</li>
