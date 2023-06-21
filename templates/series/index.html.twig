@@ -5,10 +5,10 @@
 {% block body %}
 
 
-    <a href="/series/create" class="btn btn-outline-primary ">Adicionar</a>
+    <a href="/series/create" class="btn btn-outline-primary mb-3">Adicionar</a>
     <ul class="list-group">
         {% for serie in seriesList %}
-            <li class="list-group-item">{{ serie }}</li>
+            <li class="list-group-item">{{ serie.name }}</li>
         {% endfor %}
 
     </ul>

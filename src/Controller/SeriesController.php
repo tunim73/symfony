@@ -2,39 +2,48 @@
 
 namespace App\Controller;
 
+use App\Entity\Series;
+use App\Repository\SeriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends AbstractController
 {
-    #[Route('/series', name: 'app_series', methods: ['GET'])]
-    public function index(): Response
+
+    public function __construct(private SeriesRepository $seriesRepository)
     {
+    }
 
-        $seriesList = [
-            'Game of Thrones',
-            'Dark',
-            'Três espiãs demais',
-            'The Witcher',
-            'Um Maluco no pedaço',
-            'Friends',
-            'South Park',
-            "Grey's Anatomy"
-        ];
-
-        //return new JsonResponse($seriesList);
+    #[Route('/series', name: 'app_series', methods: ['GET'])]
+    public function seriesList(): Response
+    {
+        $seriesList = $this->seriesRepository->findAll();
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
         ]);
     }
+
+
     #[Route('/series/create', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-
         return $this->render('series/form.html.twig'); //atalho alt+enter
+    }
+
+    #[Route('/series/create', methods: ['POST'])]
+    public function addSeries(Request $req): Response
+    {
+        $seriesName =  $req->request->get('name');
+
+        $series = new Series($seriesName);
+
+        $this->seriesRepository->save($series, true);
+
+        return new RedirectResponse('/series');
 
     }
 
