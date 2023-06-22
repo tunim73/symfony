@@ -49,7 +49,14 @@ class SeriesController extends AbstractController
 
     }
 
-    #[Route('/series/delete/{id}', name: 'app_delete_series', methods: ['DELETE'])]
+
+    /* com requirements, é restringir o que vem na url, por exemplo, aqui to falando que o id
+só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de checar na função */
+    #[Route('/series/delete/{id}',
+        name: 'app_delete_series',
+        methods: ['DELETE'],
+        requirements: ['id' => '[0-9]+']
+    )]
     public function deleteSeries(int $id): Response
     {
         $this->seriesRepository->removeById($id);
