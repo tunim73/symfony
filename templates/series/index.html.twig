@@ -3,7 +3,12 @@
 {% block title %}Minhas séries{% endblock %}
 
 {% block body %}
-
+    {% if successMessageDelete %}
+        <div class="alert alert-danger">{{ successMessageDelete }}</div>
+    {% endif %}
+    {% if successMessageAddSeries %}
+        <div class="alert alert-success">{{ successMessageAddSeries }}</div>
+    {% endif %}
 
     <a href="{{ path("app_series_form_GET") }}" class="btn btn-outline-primary mb-3">Adicionar</a>
     <ul class="list-group">

@@ -20,12 +20,21 @@ class SeriesController extends AbstractController
     }
 
     #[Route('/series', name: 'app_series', methods: ['GET'])]
-    public function seriesList(): Response
+    public function seriesList(Request $request): Response
     {
         $seriesList = $this->seriesRepository->findAll();
+        $session = $request->getSession();
+
+        $successMessageDelete = $session->get('successDelete');
+        $session->remove('successDelete');
+
+        $successMessageAddSeries = $session->get('successAddSeries');
+        $session->remove('successAddSeries');
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
+            'successMessageDelete' => $successMessageDelete,
+            'successMessageAddSeries' => $successMessageAddSeries
         ]);
     }
 
@@ -40,8 +49,10 @@ class SeriesController extends AbstractController
     public function addSeries(Request $req): Response
     {
         $seriesName =  $req->request->get('name');
-
         $series = new Series($seriesName);
+
+        $session = $req->getSession();
+        $session->set('successAddSeries', 'Série Adicionada com sucesso');
 
         $this->seriesRepository->save($series, true);
 
@@ -57,9 +68,13 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
         methods: ['DELETE'],
         requirements: ['id' => '[0-9]+']
     )]
-    public function deleteSeries(int $id): Response
+    public function deleteSeries(int $id, Request $request): Response
     {
         $this->seriesRepository->removeById($id);
+
+        $session = $request->getSession();
+        $session->set('successDelete', 'Série removida com sucesso');
+
         return new RedirectResponse('/series');
     }
 }
