@@ -45,6 +45,15 @@ class   SeriesRepository extends ServiceEntityRepository
         $series = $this->getEntityManager()->getPartialReference(Series::class, $id);
         $this->remove($series, true);
     }
+
+    public function getReference(int $id): Series
+    {
+        return $this->getEntityManager()->getPartialReference(Series::class, $id);
+    }
+
+
+
+
 //    /**
 //     * @return Series[] Returns an array of Series objects
 //     */
@@ -60,13 +69,15 @@ class   SeriesRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Series
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+
+/*    public function findOneBySomeField($value): ?Series
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }*/
 }

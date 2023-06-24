@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Series;
 use App\Repository\SeriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,4 +78,24 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
 
         return new RedirectResponse('/series');
     }
+
+    #[Route('/series/edit/{id}', name: 'app_edit_series', methods: ['GET'],
+        requirements: ['id' => '[0-9]+'])]
+    public function editSeriesForm(int $id):Response
+    {
+        /*
+        A injeção de dependência automática não ta funcionando, nas configurações até onde vi
+        estão normais, então fui no banco manualmente para pegar o name
+        */
+
+        $series = $this->seriesRepository->find($id);
+
+        return $this->render('series/form.html.twig', compact('series'));
+       /* Funciona igual em cima, a função compact é para quando a chave tiver o mesmo nome do
+        da variavel valor'*/
+        /*return $this->render('series/form.html.twig', [
+            'series' => $series
+        ]);*/
+    }
+
 }
