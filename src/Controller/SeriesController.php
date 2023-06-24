@@ -32,10 +32,14 @@ class SeriesController extends AbstractController
         $successMessageAddSeries = $session->get('successAddSeries');
         $session->remove('successAddSeries');
 
+        $successMessageEditSeries = $session->get('successEditSeries');
+        $session->remove('successEditSeries');
+
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
             'successMessageDelete' => $successMessageDelete,
-            'successMessageAddSeries' => $successMessageAddSeries
+            'successMessageAddSeries' => $successMessageAddSeries,
+            'successMessageEditSeries' => $successMessageEditSeries
         ]);
     }
 
@@ -79,7 +83,8 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
         return new RedirectResponse('/series');
     }
 
-    #[Route('/series/edit/{id}', name: 'app_edit_series', methods: ['GET'],
+    #[Route('/series/edit/{id}', name: 'app_series_form_edit_GET',
+        methods: ['GET'],
         requirements: ['id' => '[0-9]+'])]
     public function editSeriesForm(int $id):Response
     {
@@ -97,5 +102,28 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
             'series' => $series
         ]);*/
     }
+
+
+    #[Route('/series/edit/{id}', name: 'app_series_form_edit_PATCH', methods: ['PATCH'],
+        requirements: ['id' => '[0-9]+'])]
+    public function editSeries(int $id, Request $request):Response
+    {
+        $series = $this->seriesRepository->find($id);
+        $series->setName($request->request->get('name'));
+        $this->seriesRepository->save($series, true);
+
+        $request->getSession()->set('successEditSeries', 'Série Editada com sucesso');
+        return new RedirectResponse('/series');
+    }
+
+
+
+
+
+
+
+
+
+
 
 }
