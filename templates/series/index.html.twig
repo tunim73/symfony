@@ -3,15 +3,14 @@
 {% block title %}Minhas séries{% endblock %}
 
 {% block body %}
-    {% if successMessageDelete %}
-        <div class="alert alert-danger">{{ successMessageDelete }}</div>
-    {% endif %}
-    {% if successMessageAddSeries %}
-        <div class="alert alert-success">{{ successMessageAddSeries }}</div>
-    {% endif %}
-    {% if successMessageEditSeries %}
-        <div class="alert alert-primary">{{ successMessageEditSeries }}</div>
-    {% endif %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class=" alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <a href="{{ path("app_series_form_GET") }}" class="btn btn-outline-primary mb-3">Adicionar</a>
     <ul class="list-group">

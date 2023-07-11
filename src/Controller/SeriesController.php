@@ -24,22 +24,9 @@ class SeriesController extends AbstractController
     public function seriesList(Request $request): Response
     {
         $seriesList = $this->seriesRepository->findAll();
-        $session = $request->getSession();
-
-        $successMessageDelete = $session->get('successDelete');
-        $session->remove('successDelete');
-
-        $successMessageAddSeries = $session->get('successAddSeries');
-        $session->remove('successAddSeries');
-
-        $successMessageEditSeries = $session->get('successEditSeries');
-        $session->remove('successEditSeries');
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
-            'successMessageDelete' => $successMessageDelete,
-            'successMessageAddSeries' => $successMessageAddSeries,
-            'successMessageEditSeries' => $successMessageEditSeries
         ]);
     }
 
@@ -56,8 +43,7 @@ class SeriesController extends AbstractController
         $seriesName =  $req->request->get('name');
         $series = new Series($seriesName);
 
-        $session = $req->getSession();
-        $session->set('successAddSeries', 'Série Adicionada com sucesso');
+        $this->addFlash('success', 'Série Adicionada com sucesso');
 
         $this->seriesRepository->save($series, true);
 
@@ -77,8 +63,7 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
     {
         $this->seriesRepository->removeById($id);
 
-        $session = $request->getSession();
-        $session->set('successDelete', 'Série removida com sucesso');
+        $this->addFlash('success', 'Série removida com sucesso');
 
         return new RedirectResponse('/series');
     }
@@ -112,7 +97,8 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
         $series->setName($request->request->get('name'));
         $this->seriesRepository->save($series, true);
 
-        $request->getSession()->set('successEditSeries', 'Série Editada com sucesso');
+        $this->addFlash('success', 'Série Editada com sucesso');
+
         return new RedirectResponse('/series');
     }
 
