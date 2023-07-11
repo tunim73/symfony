@@ -7,6 +7,8 @@ use App\Repository\SeriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +36,13 @@ class SeriesController extends AbstractController
     #[Route('/series/create', name: 'app_series_form_GET' ,methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-        return $this->render('series/form.html.twig'); //atalho alt+enter
+        $seriesForm=$this->createFormBuilder(new Series(''))
+            ->add('name', TextType::class, ['label'=>'Nome: '])
+            ->add('save', SubmitType::class, ['label'=>'Adicionar'])
+            ->getForm();
+
+
+        return $this->renderForm('series/form.html.twig', compact('seriesForm'));
     }
 
     #[Route('/series/create', name: 'app_series_form_POST', methods: ['POST'])]

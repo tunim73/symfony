@@ -4,7 +4,23 @@
 
 {% block body %}
 
-    <form method="post"
+    {{form(seriesForm)}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--form method="post"
           action="{{ series is defined ? path('app_series_form_edit_PATCH',
             {id: series.id}) : path('app_series_form_POST') }}">
 
@@ -23,6 +39,6 @@
         <button class="btn btn-primary">
         {{ series is defined ? 'Editar' : 'Adicionar' }}
         </button>
-    </form>
+    </--form>
 
 {% endblock %}
