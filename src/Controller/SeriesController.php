@@ -52,8 +52,13 @@ class SeriesController extends AbstractController
     #[Route('/series/create', name: 'app_series_form_POST', methods: ['POST'])]
     public function addSeries(Request $req): Response
     {
-        $seriesName =  $req->request->get('name');
-        $series = new Series($seriesName);
+        $series = new Series("");
+
+        $this->createForm(SeriesType::class, $series)
+            ->handleRequest($req);
+        /* Esse handleRequest coloca, de acordo com o nome do campo do form, tudo no objeto
+        series, sem eu precisar pegar cada campo e atribuir, manualmente, aos atributos da classe
+         series */
 
         $this->addFlash('success', 'Série Adicionada com sucesso');
 
