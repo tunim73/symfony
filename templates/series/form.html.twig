@@ -4,41 +4,26 @@
 
 {% block body %}
 
-    {{form(seriesForm)}}
+    {{ form_start(seriesForm) }}
+
+    {{ form_row(seriesForm.name) }}
+    {{ form_widget(seriesForm.save, {attr:{'class': 'btn btn-dark'}}) }}
+    {{ form_end(seriesForm) }}
+
+    {#
+    {{ form_start(seriesForm) }}
+<div class="my-custom-class-for-errors">
+    {{ form_errors(seriesForm) }}
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(seriesForm.name) }}
+    </div>
+</div>
+{{ form_end(seriesForm) }}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--form method="post"
-          action="{{ series is defined ? path('app_series_form_edit_PATCH',
-            {id: series.id}) : path('app_series_form_POST') }}">
-
-        {% if series is defined %}
-            <input type="hidden" name="_method" value="PATCH">
-        {% endif %}
-
-
-        <div class="mb-3">
-            <label class="form-label" for="name">Nome da série:</label>
-            <input class="form-control" type="text" name="name" id="name"
-                   value="{{ series is defined ? series.name   : "" }}"
-            >
-        </div>
-
-        <button class="btn btn-primary">
-        {{ series is defined ? 'Editar' : 'Adicionar' }}
-        </button>
-    </--form>
+    #}
 
 {% endblock %}
