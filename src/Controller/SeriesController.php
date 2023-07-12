@@ -54,11 +54,15 @@ class SeriesController extends AbstractController
     {
         $series = new Series("");
 
-        $this->createForm(SeriesType::class, $series)
+        $seriesForm = $this->createForm(SeriesType::class, $series)
             ->handleRequest($req);
         /* Esse handleRequest coloca, de acordo com o nome do campo do form, tudo no objeto
         series, sem eu precisar pegar cada campo e atribuir, manualmente, aos atributos da classe
          series */
+
+        if(!$seriesForm->isValid()){
+            return $this->renderForm('series/form.html.twig', compact('seriesForm'));
+        }
 
         $this->addFlash('success', 'Série Adicionada com sucesso');
 
