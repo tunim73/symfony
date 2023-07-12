@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SeriesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SeriesRepository::class)]
 class Series
@@ -14,9 +15,11 @@ class Series
     private int $id;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 5)]
     private string $name;
 
-    public function __construct(string $name)
+    public function __construct(string $name = '')
     {
         $this->name = $name;
     }
