@@ -101,7 +101,12 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
 
         $series = $this->seriesRepository->find($id);
 
-        return $this->render('series/form.html.twig', compact('series'));
+        $seriesForm = $this->createForm(SeriesType::class,
+            $series, options: ['is_edit' => true ] );
+
+
+        return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
+
        /* Funciona igual em cima, a função compact é para quando a chave tiver o mesmo nome do
         da variavel valor'*/
         /*return $this->render('series/form.html.twig', [
@@ -115,7 +120,14 @@ só pode ser digitos, se eu colocar uma string, vai dar erro antes mesmo de chec
     public function editSeries(int $id, Request $request):Response
     {
         $series = $this->seriesRepository->find($id);
-        $series->setName($request->request->get('name'));
+        $seriesForm = $this->createForm(SeriesType::class,$series, ['is_edit'=>true] );
+        $seriesForm->handleRequest($request);
+
+        if(!$seriesForm->isValid()) {
+            return $this->renderForm('series/form.html.twig',
+                compact('seriesForm', 'series'));
+        }
+
         $this->seriesRepository->save($series, true);
 
         $this->addFlash('success', 'Série Editada com sucesso');
